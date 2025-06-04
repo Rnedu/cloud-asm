@@ -125,6 +125,7 @@ def upload_image():
             return render_template("upload.html", error="Invalid file type")
 
         filename = secure_filename(file.filename)
+        filename = f"uploads/{filename}"
         file_data = file.read()  # Read file as binary
 
         # Upload file to S3
