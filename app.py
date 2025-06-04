@@ -69,8 +69,8 @@ def get_s3_client():
 
 # Database Configuration, REPLACE with your RDS credentials
 #TODO: replace with new values
-DB_HOST = "database-1.cgnb1bco9o7o.us-east-1.rds.amazonaws.com"
-DB_NAME = "image-caption-db"
+DB_HOST = "image-caption-db.cgnb1bco9o7o.us-east-1.rds.amazonaws.com"
+DB_NAME = "image_caption_db"
 DB_USER = "admin"
 DB_PASSWORD = "Rohith2001"
 
@@ -135,22 +135,22 @@ def upload_image():
             return render_template("upload.html", error=f"S3 Upload Error: {str(e)}")
 
         # Generate caption
-        caption = generate_image_caption(file_data)
+        # caption = generate_image_caption(file_data)
 
-        # Save metadata to the database
-        try:
-            connection = get_db_connection()
-            if connection is None:
-                return render_template("upload.html", error="Database Error: Unable to connect to the database.")
-            cursor = connection.cursor()
-            cursor.execute(
-                "INSERT INTO captions (image_key, caption) VALUES (%s, %s)",
-                (filename, caption),
-            )
-            connection.commit()
-            connection.close()
-        except Exception as e:
-            return render_template("upload.html", error=f"Database Error: {str(e)}")
+        # # Save metadata to the database
+        # try:
+        #     connection = get_db_connection()
+        #     if connection is None:
+        #         return render_template("upload.html", error="Database Error: Unable to connect to the database.")
+        #     cursor = connection.cursor()
+        #     cursor.execute(
+        #         "INSERT INTO captions (image_key, caption) VALUES (%s, %s)",
+        #         (filename, caption),
+        #     )
+        #     connection.commit()
+        #     connection.close()
+        # except Exception as e:
+        #     return render_template("upload.html", error=f"Database Error: {str(e)}")
 
         # Prepare image for frontend display using Base64 encoding
         encoded_image = base64.b64encode(file_data).decode("utf-8")
