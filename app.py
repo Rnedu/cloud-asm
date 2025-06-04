@@ -19,7 +19,7 @@ Failure to update these values will result in authentication errors or failure t
 # pip install -q -U google-generativeai
 # pip install boto3 werkzeug
 # sudo yum install -y mariadb105
-
+import os
 import boto3  # AWS S3 SDK
 import mysql.connector  # MySQL database connector
 from flask import Flask, request, render_template, jsonify  # Web framework
@@ -180,7 +180,7 @@ def gallery():
             {
                 "url": get_s3_client().generate_presigned_url(
                     "get_object",
-                    Params={"Bucket": S3_BUCKET, "Key": row["image_key"]},
+                    Params={"Bucket": S3_BUCKET, "Key": f"thumbnails/{os.path.basename(row['image_key'])}"},
                     ExpiresIn=3600,  # URL expires in 1 hour
                 ),
                 "caption": row["caption"],
